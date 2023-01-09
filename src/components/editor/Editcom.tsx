@@ -1,8 +1,16 @@
-import React, { useEffect, useRef } from "react";
+import React, { useLayoutEffect, useRef, useState } from "react";
 import parse from "html-react-parser";
 
 import "../../App.css";
-import {FaBootstrap,FaItalic,FaUnderline,FaAlignCenter,FaAlignJustify,FaAlignLeft,FaAlignRight,FaExpandArrowsAlt,
+import {
+    FaBootstrap,
+    FaItalic,
+    FaUnderline,
+    FaAlignCenter,
+    FaAlignJustify,
+    FaAlignLeft,
+    FaAlignRight,
+    FaExpandArrowsAlt,
     FaLink,
     FaListOl,
     FaListUl,
@@ -16,8 +24,9 @@ import {FaBootstrap,FaItalic,FaUnderline,FaAlignCenter,FaAlignJustify,FaAlignLef
 } from "react-icons/fa";
 export function Editcom({ data }: any) {
     let editable = useRef(null);
-    useEffect(() => {
-        console.log("editable",editable.current); // { current: <h1_object> }
+
+    useLayoutEffect(() => {
+        console.log("editable",editable.current);
       },[])
     
     function handleEditedata(event: any) {
@@ -84,7 +93,7 @@ export function Editcom({ data }: any) {
         document.execCommand("bold");
     }
     return (
-     
+        <>
             <div className="container">
                 <div className="options">
                     {/* <!-- Text Format --> */}
@@ -210,27 +219,13 @@ export function Editcom({ data }: any) {
                     <button id="indent" className="option-button spacing">
                         <FaExpandArrowsAlt />
                     </button>
-
-                    {/* <!-- Headings --> */}
-                    <select
-                        id="formatBlock"
-                        className="adv-option-button"
-                        onClick={handleheader}
-                    >
-                        <option value="H1">H1</option>
-                        <option value="H2">H2</option>
-                        <option value="H3">H3</option>
-                        <option value="H4">H4</option>
-                        <option value="H5">H5</option>
-                        <option value="H6">H6</option>
-                    </select>
-
-                    {/* text */}
                 </div>
                 <div ref={editable} id="text-input" contentEditable="true" onChange={handleEditedata}>
                     {parse(data)}
                 </div>
                 {JSON.stringify(editable)}
-        </div>
+            
+            </div>
+        </>
     );
 }
