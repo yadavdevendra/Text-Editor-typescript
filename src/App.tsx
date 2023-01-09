@@ -1,6 +1,5 @@
 import "./App.css";
 import { Editcom } from "./components/editor/Editcom";
-import { NewEditor } from "./components/editor/NewEditor";
 
 function App() {
     const data: any = `<h2>The Flavorful Tuscany Meetup</h2>
@@ -21,7 +20,6 @@ function App() {
     return (
         <div>
             <Editcom data={data} />
-<NewEditor/>
         </div>
     );
 }

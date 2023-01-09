@@ -1,16 +1,8 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import parse from "html-react-parser";
 
 import "../../App.css";
-import {
-    FaBootstrap,
-    FaItalic,
-    FaUnderline,
-    FaAlignCenter,
-    FaAlignJustify,
-    FaAlignLeft,
-    FaAlignRight,
-    FaExpandArrowsAlt,
+import {FaBootstrap,FaItalic,FaUnderline,FaAlignCenter,FaAlignJustify,FaAlignLeft,FaAlignRight,FaExpandArrowsAlt,
     FaLink,
     FaListOl,
     FaListUl,
@@ -23,11 +15,15 @@ import {
     FaSuperscript,
 } from "react-icons/fa";
 export function Editcom({ data }: any) {
-    const editable = useRef()
+    let editable = useRef(null);
+    useEffect(() => {
+        console.log("editable",editable.current); // { current: <h1_object> }
+      },[])
+    
     function handleEditedata(event: any) {
         const data = event.target.value
-        console.log("data",data);
-        
+        console.log("data", data);
+
     }
     const handlebold = () => {
         document.execCommand("bold");
@@ -88,7 +84,7 @@ export function Editcom({ data }: any) {
         document.execCommand("bold");
     }
     return (
-        <>
+     
             <div className="container">
                 <div className="options">
                     {/* <!-- Text Format --> */}
@@ -231,10 +227,10 @@ export function Editcom({ data }: any) {
 
                     {/* text */}
                 </div>
-                <div id="text-input" contentEditable="true" onChange={handleEditedata}>
+                <div ref={editable} id="text-input" contentEditable="true" onChange={handleEditedata}>
                     {parse(data)}
                 </div>
-            </div>
-        </>
+                {JSON.stringify(editable)}
+        </div>
     );
 }
