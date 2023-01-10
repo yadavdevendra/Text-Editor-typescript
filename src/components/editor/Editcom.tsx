@@ -1,39 +1,26 @@
-import React, { useLayoutEffect, useRef, useState } from "react";
+import React, { ReactElement, useRef, useState } from "react";
 import parse from "html-react-parser";
+import {options} from './data'
 
 import "../../App.css";
 import {
-    FaBootstrap,
-    FaItalic,
-    FaUnderline,
-    FaAlignCenter,
-    FaAlignJustify,
-    FaAlignLeft,
-    FaAlignRight,
-    FaExpandArrowsAlt,
-    FaLink,
-    FaListOl,
-    FaListUl,
-    FaCamera,
-    FaCut,
-    FaQuoteRight,
-    FaUndo,
-    FaRedo,
-    FaSubscript,
-    FaSuperscript,
+    FaBootstrap, FaItalic, FaUnderline, FaAlignCenter, FaAlignLeft, FaAlignRight, FaLink,
+    FaListOl, FaListUl, FaCamera, FaUndo, FaRedo,
 } from "react-icons/fa";
-export function Editcom({ data }: any) {
-    let editable = useRef(null);
 
-    useLayoutEffect(() => {
-        console.log("editable",editable.current);
-      },[])
-    
-    function handleEditedata(event: any) {
-        const data = event.target.value
-        console.log("data", data);
-
+export function Editcom({ data }: any): ReactElement {
+    const [first, setfirst] = useState<any[]>([])
+    console.log("first", first);
+   
+    let myDivElement = useRef(null);
+    function onHeading1Click(e: any) {
+        const heading: string = e.target.value
+        document.execCommand('formatBlock', false, `<${heading}>`);
     }
+    const handlechange = (event: any) => {
+        setfirst(event.relatedTarget)
+    }
+
     const handlebold = () => {
         document.execCommand("bold");
     };
@@ -44,15 +31,6 @@ export function Editcom({ data }: any) {
 
     function handleunderline() {
         document.execCommand("underline");
-    }
-    function handlesubscript() {
-        document.execCommand("subscript");
-    }
-    function handlesuperscript() {
-        document.execCommand("superscript");
-    }
-    function handleDelete() {
-        document.execCommand("delete");
     }
 
     const handleOlClick = () => {
@@ -69,16 +47,10 @@ export function Editcom({ data }: any) {
         document.execCommand("undo");
     }
     function handlecreateLink() {
-        document.execCommand("createLink");
-    }
-    function handleParagraphk() {
-        document.execCommand("insertParagraph");
+        document.execCommand("CreateLink", false, "http://stackoverflow.com/");
     }
     function handlejustifyCenter() {
         document.execCommand("justifyCenter");
-    }
-    function handlejustifyFull() {
-        document.execCommand("justifyFull");
     }
     function handlejustifyLeft() {
         document.execCommand("justifyLeft");
@@ -87,144 +59,48 @@ export function Editcom({ data }: any) {
         document.execCommand("justifyRight");
     }
     function handleInsertImage() {
-        document.execCommand("inserImage");
+        document.execCommand("inserImage", false, "<img src={} alt='image'>");
     }
-    function handleheader() {
-        document.execCommand("bold");
+    function handleSave() {
+
     }
     return (
         <>
             <div className="container">
                 <div className="options">
-                    {/* <!-- Text Format --> */}
-                    <button
-                        id="bold"
-                        className="option-button format"
-                        onClick={handlebold}
-                    >
-                        <FaBootstrap />
-                    </button>
-                    <button
-                        id="italic"
-                        className="option-button format"
-                        onClick={handleitalic}
-                    >
-                        <FaItalic />
-                    </button>
-                    <button
-                        id="underline"
-                        className="option-button format"
-                        onClick={handleunderline}
-                    >
-                        <FaUnderline />
-                    </button>
-                    <button
-                        id="strikethrough"
-                        className="option-button format"
-                        onClick={handleDelete}
-                    >
-                        <FaCut />
-                    </button>
-                    <button
-                        id="superscript"
-                        className="option-button script"
-                        onClick={handleParagraphk}
-                    >
-                        <FaQuoteRight />
-                    </button>
-                    <button
-                        id="subscript"
-                        className="option-button script"
-                        onClick={handlesubscript}
-                    >
-                        <FaSubscript />
-                    </button>
-                    <button
-                        id="subscript"
-                        className="option-button script"
-                        onClick={handlesuperscript}
-                    >
-                        <FaSuperscript />
-                    </button>
+                    {/*  Text Format */}
+                    <button onClick={handlebold} > <FaBootstrap /> </button>
+                    <button onClick={handleitalic}><FaItalic /></button>
+                    <button onClick={handleunderline} ><FaUnderline /></button>
 
-                    {/* <!-- List --> */}
-                    <button
-                        id="insertOrderedList"
-                        className="option-button"
-                        onClick={handleOlClick}
-                    >
-                        <FaListOl />
-                    </button>
-                    <button
-                        id="insertUnorderedList"
-                        className="option-button"
-                        onClick={handleulClick}
-                    >
-                        <FaListUl />
-                    </button>
+                    {/*  List */}
+                    <button onClick={handleOlClick}><FaListOl /></button>
+                    <button onClick={handleulClick}><FaListUl /></button>
+                    {/*  Undo/Redo */}
+                    <button onClick={handleundo}><FaUndo /></button>
+                    <button onClick={handleredo}><FaRedo /></button>
 
-                    {/* <!-- Undo/Redo --> */}
-                    <button id="undo" className="option-button" onClick={handleundo}>
-                        <FaUndo />
-                    </button>
-                    <button id="redo" className="option-button" onClick={handleredo}>
-                        <FaRedo />
-                    </button>
+                    {/*  Link */}
+                    <button onClick={handlecreateLink}><FaLink /></button>
+                    <button onClick={handleInsertImage}><FaCamera /></button>
 
-                    {/* <!-- Link --> */}
-                    <button
-                        id="createLink"
-                        className="adv-option-button"
-                        onClick={handlecreateLink}
-                    >
-                        <FaLink />
-                    </button>
-                    <button
-                        id="unlink"
-                        className="option-button"
-                        onClick={handleInsertImage}
-                    >
-                        <FaCamera />
-                    </button>
+                    {/*  Alignment */}
+                    <button onClick={handlejustifyCenter}><FaAlignCenter /></button>
+                    <button onClick={handlejustifyLeft}><FaAlignLeft /></button>
+                    <button onClick={handlejustifyRight}><FaAlignRight /></button>
+                    {/*  Selection */}
 
-                    {/* <!-- Alignment --> */}
-                    <button
-                        id="justifyLeft"
-                        className="option-button align"
-                        onClick={handlejustifyCenter}
-                    >
-                        <FaAlignCenter />
-                    </button>
-                    <button
-                        id="justifyCenter"
-                        className="option-button align"
-                        onClick={handlejustifyFull}
-                    >
-                        <FaAlignJustify />
-                    </button>
-                    <button
-                        id="justifyRight"
-                        className="option-button align"
-                        onClick={handlejustifyLeft}
-                    >
-                        <FaAlignLeft />
-                    </button>
-                    <button
-                        id="justifyFull"
-                        className="option-button align"
-                        onClick={handlejustifyRight}
-                    >
-                        <FaAlignRight />
-                    </button>
-                    <button id="indent" className="option-button spacing">
-                        <FaExpandArrowsAlt />
-                    </button>
+                    <select onClick={onHeading1Click}>
+                        {options.map((option, i: any) => (
+                            <option value={option.value} key={i}>{option.label}</option>
+                        ))}
+                    </select>
+                      {/*  Save Button only */}
+                    <button className="option-button spacing" onClick={handleSave}>Save</button>
                 </div>
-                <div ref={editable} id="text-input" contentEditable="true" onChange={handleEditedata}>
+                <div ref={myDivElement} className="text-input" contentEditable={true} suppressContentEditableWarning={true} onMouseEnter={handlechange}>
                     {parse(data)}
                 </div>
-                {JSON.stringify(editable)}
-            
             </div>
         </>
     );
