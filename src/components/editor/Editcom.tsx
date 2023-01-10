@@ -4,21 +4,36 @@ import {options} from './data'
 
 import "../../App.css";
 import {
-    FaBootstrap, FaItalic, FaUnderline, FaAlignCenter, FaAlignLeft, FaAlignRight, FaLink,
-    FaListOl, FaListUl, FaCamera, FaUndo, FaRedo,
+    FaBootstrap,
+    FaItalic,
+    FaUnderline,
+    FaAlignCenter,
+    FaAlignJustify,
+    FaAlignLeft,
+    FaAlignRight,
+    FaExpandArrowsAlt,
+    FaLink,
+    FaListOl,
+    FaListUl,
+    FaCamera,
+    FaCut,
+    FaQuoteRight,
+    FaUndo,
+    FaRedo,
+    FaSubscript,
+    FaSuperscript,
 } from "react-icons/fa";
+export function Editcom({ data }: any) {
+    let editable = useRef(null);
 
-export function Editcom({ data }: any): ReactElement {
-    const [first, setfirst] = useState<any[]>([])
-    console.log("first", first);
-   
-    let myDivElement = useRef(null);
-    function onHeading1Click(e: any) {
-        const heading: string = e.target.value
-        document.execCommand('formatBlock', false, `<${heading}>`);
-    }
-    const handlechange = (event: any) => {
-        setfirst(event.relatedTarget)
+    useLayoutEffect(() => {
+        console.log("editable",editable.current);
+      },[])
+    
+    function handleEditedata(event: any) {
+        const data = event.target.value
+        console.log("data", data);
+
     }
 
     const handlebold = () => {
@@ -47,7 +62,10 @@ export function Editcom({ data }: any): ReactElement {
         document.execCommand("undo");
     }
     function handlecreateLink() {
-        document.execCommand("CreateLink", false, "http://stackoverflow.com/");
+        document.execCommand("createLink");
+    }
+    function handleParagraphk() {
+        document.execCommand("insertParagraph");
     }
     function handlejustifyCenter() {
         document.execCommand("justifyCenter");
@@ -84,19 +102,54 @@ export function Editcom({ data }: any): ReactElement {
                     <button onClick={handlecreateLink}><FaLink /></button>
                     <button onClick={handleInsertImage}><FaCamera /></button>
 
-                    {/*  Alignment */}
-                    <button onClick={handlejustifyCenter}><FaAlignCenter /></button>
-                    <button onClick={handlejustifyLeft}><FaAlignLeft /></button>
-                    <button onClick={handlejustifyRight}><FaAlignRight /></button>
-                    {/*  Selection */}
+                    {/* <!-- Link --> */}
+                    <button
+                        id="createLink"
+                        className="adv-option-button"
+                        onClick={handlecreateLink}
+                    >
+                        <FaLink />
+                    </button>
+                    <button
+                        id="unlink"
+                        className="option-button"
+                        onClick={handleInsertImage}
+                    >
+                        <FaCamera />
+                    </button>
 
-                    <select onClick={onHeading1Click}>
-                        {options.map((option, i: any) => (
-                            <option value={option.value} key={i}>{option.label}</option>
-                        ))}
-                    </select>
-                      {/*  Save Button only */}
-                    <button className="option-button spacing" onClick={handleSave}>Save</button>
+                    {/* <!-- Alignment --> */}
+                    <button
+                        id="justifyLeft"
+                        className="option-button align"
+                        onClick={handlejustifyCenter}
+                    >
+                        <FaAlignCenter />
+                    </button>
+                    <button
+                        id="justifyCenter"
+                        className="option-button align"
+                        onClick={handlejustifyFull}
+                    >
+                        <FaAlignJustify />
+                    </button>
+                    <button
+                        id="justifyRight"
+                        className="option-button align"
+                        onClick={handlejustifyLeft}
+                    >
+                        <FaAlignLeft />
+                    </button>
+                    <button
+                        id="justifyFull"
+                        className="option-button align"
+                        onClick={handlejustifyRight}
+                    >
+                        <FaAlignRight />
+                    </button>
+                    <button id="indent" className="option-button spacing">
+                        <FaExpandArrowsAlt />
+                    </button>
                 </div>
                 <div ref={myDivElement} className="text-input" contentEditable={true} suppressContentEditableWarning={true} onMouseEnter={handlechange}>
                     {parse(data)}
